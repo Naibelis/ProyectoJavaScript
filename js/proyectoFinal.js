@@ -22,32 +22,7 @@ class ServicioCanino {
   }
 }
 
-const listadoServicios = [
-  {
-    id: 1,
-    tipoServicio: "Curso",
-    turno: "Noche",
-    precio: 1500,
-    exentoIva: "no",
-    src: "https://simiperrohablara.com/wp-content/uploads/2017/04/SMPH_Cursos_Cabecera_03-2-1.png",
-  },
-  {
-    id: 2,
-    tipoServicio: "Paseo",
-    turno: "Mañana",
-    precio: 2000,
-    exentoIva: "no",
-    src: "https://t1.ea.ltmcdn.com/es/images/6/1/2/img_pasear_al_perro_antes_o_despues_de_comer_22216_orig.jpg",
-  },
-  {
-    id: 3,
-    tipoServicio: "Adiestramiento",
-    turno: "Tarde",
-    precio: 3000,
-    exentoIva: "si",
-    src: "https://live.hsmob.io/storage/images/wakyma.com/wakyma.com_problemas-durante-el-adiestramiento-canino-1.jpg",
-  },
-];
+let serviciosDir = "../data/servicios.json";
 
 let carrito = [];
 
@@ -60,49 +35,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const borrarCarrito = (id) => {
   carrito = carrito.filter((item) => item.id != id);
-  localStorage.setItem("carrito", carrito);
+  console.log({ carrito });
+  localStorage.setItem("carrito", JSON.stringify(carrito));
   mostrarCarrito();
+  $("#itemEliminadoNotif").fadeIn("fast").delay(1500).fadeOut("fast");
 };
 
 const mostrarCarrito = () => {
-  const itemsCarrito = document.getElementById("itemsCarrito");
-  itemsCarrito.innerHTML = "";
+  $("#itemsCarrito").html("");
+  let cantidadTotal = 0;
+  let costoTotal = 0;
 
   for (const item of carrito) {
-    const elemTipoServicio = document.createElement("p");
-    elemTipoServicio.innerHTML = `Servicio: ${item.tipoServicio}`;
+    cantidadTotal += item.cantidad;
+    costoTotal += item.precio * item.cantidad;
 
-    const elemTurno = document.createElement("p");
-    elemTurno.innerHTML = `Turno:  ${item.turno}`;
+    let card = $(`
+    <div class="shadow-sm card mx-auto my-3" style="width: 18rem;">
+      <img class="card-img-top" src='${item.src}' alt="Card image cap">
+      <h5 class="card-header">
+        ${item.tipoServicio}
+      </h5>
+      <div class="card-body">
+        <p class="card-text">Turno:  ${item.turno}</p>
+        <p class="card-text">Precio: $${item.precio}</p>
+        <div class="dropdown-divider"></div>
+        <p class="card-text">Cantidad: ${item.cantidad}</p>
+        <button class="btn btn-danger">
+          Borrar
+        </button>
+      </div>
+    </div>
+    `);
 
-    const elemPrecio = document.createElement("p");
-    elemPrecio.innerHTML = `Precio: ${item.precio}`;
-
-    const elemCantidad = document.createElement("p");
-    elemCantidad.innerHTML = `Cantidad: ${item.cantidad}`;
-
-    const elemImagen = document.createElement("img");
-    elemImagen.src = item.src;
-    elemImagen.width = 300;
-
-    const boton = document.createElement("button");
-    boton.innerHTML = "Borrar";
-    boton.onclick = () => {
+    card.find(".btn").click((e) => {
+      e.preventDefault();
       borrarCarrito(item.id);
-    };
-
-    const contenedor = document.createElement("div");
-    contenedor.style =
-      "border: 1px solid black; width: 450px; margin: 4px auto;";
-    contenedor.appendChild(elemTipoServicio);
-    contenedor.appendChild(elemTurno);
-    contenedor.appendChild(elemPrecio);
-    contenedor.appendChild(elemCantidad);
-    contenedor.appendChild(elemImagen);
-    contenedor.appendChild(boton);
-
-    itemsCarrito.appendChild(contenedor);
+    });
+    $("#itemsCarrito").append(card);
   }
+
+  $("#cantidadItems").html(cantidadTotal);
+  $("#costoTotal").html(costoTotal);
 };
 
 const agregarAlCarrito = (servicio) => {
@@ -136,42 +110,44 @@ const agregarAlCarrito = (servicio) => {
       servicio.src,
       1
     );
+
     carrito.push(itemCarrito);
   }
 
   mostrarCarrito();
   localStorage.setItem("carrito", JSON.stringify(carrito));
+  $("#itemAgregadoNotif").fadeIn("fast").delay(1500).fadeOut("fast");
 };
 
-const listaItems = document.getElementById("listadoServ");
+$.getJSON(serviciosDir, function (res, textStatus) {
+  let listadoServicios = [];
+  if (textStatus == "success") {
+    listadoServicios = res.items;
+  }
 
-for (const servicio of listadoServicios) {
-  const elemTipoServicio = document.createElement("p");
-  elemTipoServicio.innerHTML = `Servicio: ${servicio.tipoServicio}`;
+  for (const servicio of listadoServicios) {
+    let card = $(`
+      <div class="shadow-sm card mx-auto my-3" style="width: 18rem;">
+        <img class="card-img-top" src='${servicio.src}' alt="Card image cap">
+        <h5 class="card-header">
+          ${servicio.tipoServicio}
+        </h5>
+        <div class="card-body">
+          <p class="card-text">Turno:  ${servicio.turno}</p>
+          <p class="card-text">Precio: $${servicio.precio}</p>
+          <div class="dropdown-divider"></div>
+          <button class="btn btn-primary">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    `);
+    console.log({ servicio });
 
-  const elemTurno = document.createElement("p");
-  elemTurno.innerHTML = `Turno:  ${servicio.turno}`;
-
-  const elemPrecio = document.createElement("p");
-  elemPrecio.innerHTML = `Precio: ${servicio.precio}`;
-
-  const elemImagen = document.createElement("img");
-  elemImagen.src = servicio.src;
-  elemImagen.width = 300;
-
-  const boton = document.createElement("button");
-  boton.innerHTML = "Agregar al carrito";
-  boton.onclick = () => {
-    agregarAlCarrito(servicio);
-  };
-
-  const contenedor = document.createElement("div");
-  contenedor.style = "border: 1px solid black; width: 450px; margin: 4px auto;";
-  contenedor.appendChild(elemTipoServicio);
-  contenedor.appendChild(elemTurno);
-  contenedor.appendChild(elemPrecio);
-  contenedor.appendChild(elemImagen);
-  contenedor.appendChild(boton);
-
-  listaItems.appendChild(contenedor);
-}
+    card.find(".btn").click((e) => {
+      e.preventDefault();
+      agregarAlCarrito(servicio);
+    });
+    $("#listadoServ").append(card);
+  }
+});

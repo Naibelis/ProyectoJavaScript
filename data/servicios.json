@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "tipoServicio": "Curso",
+      "turno": "Noche",
+      "precio": 1500,
+      "exentoIva": "no",
+      "src": "https://simiperrohablara.com/wp-content/uploads/2017/04/SMPH_Cursos_Cabecera_03-2-1.png"
+    },
+    {
+      "id": 2,
+      "tipoServicio": "Paseo",
+      "turno": "Mañana",
+      "precio": 2000,
+      "exentoIva": "no",
+      "src": "https://www.fundacion-affinity.org/sites/default/files/estado-de-alarma.jpg"
+    },
+    {
+      "id": 3,
+      "tipoServicio": "Adiestramiento",
+      "turno": "Tarde",
+      "precio": 3000,
+      "exentoIva": "si",
+      "src": "https://live.hsmob.io/storage/images/wakyma.com/wakyma.com_problemas-durante-el-adiestramiento-canino-1.jpg"
+    }
+  ]
+}
