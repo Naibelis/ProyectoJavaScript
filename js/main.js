@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     carrito = JSON.parse(localStorage.getItem("carrito"));
     mostrarCarrito();
   }
+  if (localStorage.getItem("datos")) {
+    const datos = JSON.parse(localStorage.getItem("datos"));
+    agregarNombre(datos);
+  }
 });
 
 const borrarCarrito = (id) => {
@@ -157,6 +161,12 @@ $("#botonComprar").on("click", (e) => {
   $("#compradoNotif").fadeIn("fast").delay(1500).fadeOut("fast");
 });
 
+const agregarNombre = (datos) => {
+  $("#mensajeInvitacion").hide();
+  $("#nombreUsuario").html(`${datos.nombre} ${datos.apellido}`);
+  $("#mensajeBienvenida").show();
+};
+
 $("#registrar").on("click", (e) => {
   e.preventDefault();
   const datos = {
@@ -168,9 +178,7 @@ $("#registrar").on("click", (e) => {
 
   localStorage.setItem("datos", JSON.stringify(datos));
 
-  $("#mensajeInvitacion").hide();
-  $("#nombreUsuario").html(`${datos.nombre} ${datos.apellido}`);
-  $("#mensajeBienvenida").show();
+  agregarNombre(datos);
 
   $("#cerrar").click();
 });
