@@ -22,7 +22,7 @@ class ServicioCanino {
   }
 }
 
-let serviciosDir = "../data/servicios.json";
+let serviciosDir = "https://naibelis.github.io/ProyectoJavaScript/data/servicios.json";
 
 let carrito = [];
 
