@@ -136,7 +136,7 @@ $.getJSON(serviciosDir, function (res, textStatus) {
           <p class="card-text">Turno:  ${servicio.turno}</p>
           <p class="card-text">Precio: $${servicio.precio}</p>
           <div class="dropdown-divider"></div>
-          <button class="btn btn-primary">
+          <button class="btn bg-info text-white">
             Agregar al carrito
           </button>
         </div>
@@ -150,4 +150,27 @@ $.getJSON(serviciosDir, function (res, textStatus) {
     });
     $("#listadoServ").append(card);
   }
+});
+
+$("#botonComprar").on("click", (e) => {
+  e.preventDefault();
+  $("#compradoNotif").fadeIn("fast").delay(1500).fadeOut("fast");
+});
+
+$("#registrar").on("click", (e) => {
+  e.preventDefault();
+  const datos = {
+    nombre: $("#nombre").val(),
+    apellido: $("#apellido").val(),
+    email: $("#email").val(),
+  };
+  console.log({ datos });
+
+  localStorage.setItem("datos", JSON.stringify(datos));
+
+  $("#mensajeInvitacion").hide();
+  $("#nombreUsuario").html(`${datos.nombre} ${datos.apellido}`);
+  $("#mensajeBienvenida").show();
+
+  $("#cerrar").click();
 });

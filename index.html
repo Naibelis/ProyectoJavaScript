@@ -17,27 +17,58 @@
   <body>
     <section class="bg-info text-white py-1 text-center shadow-sm">
       <h1>Servicios Caninos</h1>
+      <button class="btn bg-dark text-white my-2" data-bs-toggle="modal" data-bs-target="#modalRegistro"> Registrar Datos</button>
     </section>
     <div id="itemAgregadoNotif" class="alert alert-success shadow position-fixed alert-custom" role="alert">
       ¡Servicio agregado al carrito exitosamente!
     </div>
+    <div id="compradoNotif" class="alert alert-success shadow position-fixed alert-custom" role="alert">
+      ¡Los servicios se han comprado exitosamente!
+    </div>
     <div id="itemEliminadoNotif" class="alert alert-danger shadow position-fixed alert-custom" role="alert">
       Servicio eliminado del carrito
     </div>
+
+
+    <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistro" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Formulario de Registro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body w-75 mx-auto">
+            <input type="text" class="w-100" placeholder="Nombre" id="nombre">
+            <input type="text" class="w-100 my-2" placeholder="Apellido" id="apellido">
+            <input type="email" class="w-100 mb-2" placeholder="Email" id="email">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cerrar">Cerrar</button>
+            <button type="button" class="btn bg-info text-white" id="registrar">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <section class="container my-3">
+      <div class="row my-3"> 
+        <div class="col-12 text-center">
+          <h5 id="mensajeInvitacion">Por favor registra tus datos</h5>
+          <h5 id="mensajeBienvenida" style="display: none;">Bienvenido(a) <span id="nombreUsuario" class="text-bold"></span></h5>
+        </div>
+      </div>
       <div class="row">
         <div class="col-6">
           <div id="carrito">
             <h2 class="text-center">Servicios a contratar</h2>
-
             <div id="itemsCarrito"></div>
           </div>
-          <!-- <label for="cupon">Cupon de Descuento</label>
-          <input type="text" id="cupon" />
-          <button id="botonCupon">Aplicar</button>-->
+
           <div class="dropdown-divider"></div>
           <h5>Cantidad de items: <span id="cantidadItems"></span></h5>
           <h3>Costo total $<span id="costoTotal"></span></h3>
+          <button id="botonComprar" class="btn btn-success">Comprar</button>
         </div>
         <div class="col-6">
           <div id="listado-productos">
@@ -49,6 +80,7 @@
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="js/proyectoFinal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
